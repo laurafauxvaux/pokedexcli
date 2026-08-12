@@ -10,6 +10,8 @@ func main () {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
+		commands := getCommands()
+		
 		fmt.Print("Pokedex > ")
 		if scanner.Scan() {
 			userInput := scanner.Text()
