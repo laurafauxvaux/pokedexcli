@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestCleanUp(t *testing.T) {
 	cases := []struct{
@@ -33,3 +35,4 @@ func TestCleanUp(t *testing.T) {
 		}
 	}
 }
+
