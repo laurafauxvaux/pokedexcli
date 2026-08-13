@@ -12,6 +12,6 @@ func cleanInput(text string) []string {
 	for _, word := range words {
 		result = append(result, strings.ToLower(word))
 	}
-	
+
 	return result
 }
