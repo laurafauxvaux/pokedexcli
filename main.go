@@ -37,5 +37,7 @@ func main() {
 	cfg := &config{
 		commands: getCommands(),
 	}
+	startUrl := "https://pokeapi.co/api/v2/location-area/"
+	cfg.next = &startUrl
 	repl(cfg)
 }
