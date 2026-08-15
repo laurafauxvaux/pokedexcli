@@ -3,12 +3,15 @@ package main
 import (
 	"fmt"
 	"os"
+
+	"github.com/laurafauxvaux/pokedexcli/internal/pokeapi"
 )
 
 type config struct {
-	commands map[string]cliCommand
-	next     *string
-	previous *string
+	commands      map[string]cliCommand
+	next          *string
+	previous      *string
+	pokeapiClient pokeapi.Client
 }
 
 type cliCommand struct {
