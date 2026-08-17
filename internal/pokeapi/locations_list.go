@@ -24,25 +24,31 @@ func (c *Client) ListLocations(locationsUrl *string) (resources, error) {
 		url = *locationsUrl
 	}
 
+	data, ok := c.cache.Get((url))
+
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return resources{}, err
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return resources{}, err
 	}
 
 	defer resp.Body.Close()
 
-	data, err := io.ReadAll(resp.Body)
+	loc, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return resources{}, err
 	}
 
-	if err := json.Unmarshal(data, &locations); err != nil {
+	if err := json.Unmarshal(loc, &locations); err != nil {
 		return resources{}, err
+	}
+
+	if !ok {
+		c.cache.Add(url, data)
 	}
 
 	return locations, nil

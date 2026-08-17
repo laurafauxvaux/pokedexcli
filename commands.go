@@ -1,9 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/laurafauxvaux/pokedexcli/internal/pokeapi"
 )
 
@@ -17,7 +14,7 @@ type config struct {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, []string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -42,21 +39,10 @@ func getCommands() map[string]cliCommand {
 			description: "Displays the previous 20 location areas",
 			callback:    commandMapb,
 		},
+		"explore": {
+			name:        "explore",
+			description: "Displays the Pokémon located in a given area",
+			callback:    commandExplore,
+		},
 	}
-}
-
-func commandExit(*config) error {
-	fmt.Print("Closing the Pokedex... Goodbye!\n")
-	os.Exit(0)
-	return nil
-}
-
-func commandHelp(cfg *config) error {
-	fmt.Print("Welcome to the Pokedex!\n")
-	fmt.Print("Usage:\n")
-
-	for _, cmd := range cfg.commands {
-		fmt.Printf("%s: %s\n", cmd.name, cmd.description)
-	}
-	return nil
 }

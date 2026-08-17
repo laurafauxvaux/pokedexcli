@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandMap(cfg *config) error {
+func commandMap(cfg *config, args []string) error {
 	if cfg.next == nil && cfg.previous != nil {
 		fmt.Println("You're on the last page")
 		return nil
@@ -25,7 +25,7 @@ func commandMap(cfg *config) error {
 	return nil
 }
 
-func commandMapb(cfg *config) error {
+func commandMapb(cfg *config, args []string) error {
 	if cfg.previous == nil && cfg.next != nil {
 		fmt.Println("You're on the first page")
 		return nil

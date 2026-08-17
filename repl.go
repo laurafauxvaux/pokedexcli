@@ -30,15 +30,19 @@ func repl(cfg *config) {
 		userInput := scanner.Text()
 		finalInput := cleanInput(userInput)
 
-		if len(finalInput) > 0 {
-			command := finalInput[0]
-			if cmd, ok := cfg.commands[command]; ok {
-				if err := cmd.callback(cfg); err != nil {
-					fmt.Printf("%v\n", err)
-				}
-			} else {
-				fmt.Print("Unknown command\n")
+		if len(finalInput) == 0 {
+			continue
+		}
+
+		command := finalInput[0]
+		args := finalInput[1:]
+
+		if cmd, ok := cfg.commands[command]; ok {
+			if err := cmd.callback(cfg, args); err != nil {
+				fmt.Printf("%v\n", err)
 			}
+		} else {
+			fmt.Print("Unknown command\n")
 		}
 	}
 	if err := scanner.Err(); err != nil {
