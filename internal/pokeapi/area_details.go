@@ -10,7 +10,7 @@ type AreaEncounters struct {
 	PokemonEncounters []struct {
 		Pokemon struct {
 			Name string `json:"name"`
-			Url  string `json:"url"`
+			URL  string `json:"url"`
 		} `json:"pokemon"`
 	} `json:"pokemon_encounters"`
 }
@@ -21,6 +21,13 @@ func (c *Client) AreaDetails(areaName string) (AreaEncounters, error) {
 	url := baseURL + "/location-area/" + areaName
 
 	data, ok := c.cache.Get(url)
+
+	if ok {
+		if err := json.Unmarshal(data, &encounters); err != nil {
+			return AreaEncounters{}, err
+		}
+		return encounters, nil
+	}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -43,9 +50,7 @@ func (c *Client) AreaDetails(areaName string) (AreaEncounters, error) {
 		return AreaEncounters{}, err
 	}
 
-	if !ok {
-		c.cache.Add(url, data)
-	}
+	c.cache.Add(url, details)
 
 	return encounters, nil
 }

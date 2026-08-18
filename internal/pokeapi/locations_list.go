@@ -7,13 +7,13 @@ import (
 )
 
 type resources struct {
-	Count    int
-	Next     *string
-	Previous *string
+	Count    int     `json:"count"`
+	Next     *string `json:"next"`
+	Previous *string `json:"previous"`
 	Results  []struct {
-		Name string
-		Url  string
-	}
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"results"`
 }
 
 func (c *Client) ListLocations(locationsUrl *string) (resources, error) {
@@ -25,6 +25,13 @@ func (c *Client) ListLocations(locationsUrl *string) (resources, error) {
 	}
 
 	data, ok := c.cache.Get((url))
+
+	if ok {
+		if err := json.Unmarshal(data, &locations); err != nil {
+			return resources{}, err
+		}
+		return locations, nil
+	}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
