@@ -54,9 +54,7 @@ func (c *Client) ListLocations(locationsUrl *string) (resources, error) {
 		return resources{}, err
 	}
 
-	if !ok {
-		c.cache.Add(url, data)
-	}
+	c.cache.Add(url, loc)
 
 	return locations, nil
 }
